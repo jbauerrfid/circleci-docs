@@ -423,6 +423,7 @@ Configure VM Service through the KOTs admin console. The following fields need t
 ** *Security Group ID (required)* - This is the security group that will be attached to the VMs. It was created previously. 
 ** *AWS IAM Access Key ID (required)* - AWS Access Key ID for EC2 access.
 ** *AWS IAM Secret Key (required)* - IAM Secret Key for EC2 access.
+** *AWS IAM Role ARN (optional)* - IAM role ARN may be used for EC2 access, in place of access keys. If a role ARN is provided, access keys are not required.
 ** *AWS Windows AMI ID (optional)* - If you require Windows builders, you can supply an AMI ID for them here.
 
 Once you have configured the fields, *save your config* and deploy your updated application. 

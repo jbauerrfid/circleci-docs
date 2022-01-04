@@ -126,6 +126,9 @@ Access Key ID for S3 bucket access.
 * *Secret Key (required)* -
 Secret Key for S3 bucket access.
 
+* *Role ARN (optional)* -
+IAM role that may be used for S3 bucket access in place off access keys. If a role ARN provided, then access keys are not required
+
 * *AWS S3 Region (optional)* -
 AWS region of bucket if your provider is AWS. S3 Endpoint is ignored if this option is set.
 
