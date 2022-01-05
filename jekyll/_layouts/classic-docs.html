@@ -43,6 +43,11 @@
               <time aria-describedby="tooltip-time" id="time-posted-on" datetime="{{  page.last_modified_at | date_to_xmlschema }}">
                 <img src="{{ site.baseurl }}/assets/img/docs/duration.svg">
                 {% if page.last_modified_at %}<span id="time-posted-ago"></span>{% else %} {{ page.date | date: '%d-%b-%y' }} {% endif %}
+                <span class="ert" title="Estimated reading time">
+                  {% assign words = page.content | strip_html | number_of_words %}
+                  {% assign ert = words | divided_by:250 | at_least: 1 %}
+                  • {{ ert }} min read
+                </span>
               </time>
               
               {% if page.version %}
