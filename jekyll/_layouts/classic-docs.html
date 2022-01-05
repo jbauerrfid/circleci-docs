@@ -38,13 +38,20 @@
               Last updated
               <div id='arrow' data-popper-arrow></div>
             </div>
-
             <div class="quick-info-list">
               <time aria-describedby="tooltip-time" id="time-posted-on" datetime="{{  page.last_modified_at | date_to_xmlschema }}">
                 <img src="{{ site.baseurl }}/assets/img/docs/duration.svg">
                 {% if page.last_modified_at %}<span id="time-posted-ago"></span>{% else %} {{ page.date | date: '%d-%b-%y' }} {% endif %}
                 <span class="ert" title="Estimated reading time">
-                  {% assign words = page.content | strip_html | number_of_words %}
+                  {% assign words_total = page.content | replace: '<script type="math/tex">', '' | replace: '<script type="math/tex; mode=display">', '' | replace: '</script>', '' | strip_html | number_of_words %}
+                  {% assign words_without_code = page.content | replace: '<pre class="highlight">', '<!--' | replace: '</pre>', '-->' | replace: '<script type="math/tex">', '' | replace: '<script type="math/tex; mode=display">', '' | replace: '</script>', '' | strip_html | number_of_words %}
+                  {% assign words_without_math = page.content | strip_html | number_of_words %}
+                  {% assign words_without_either = page.content | replace: '<pre class="highlight">', '<!--' | replace: '</pre>', '-->' | strip_html | number_of_words %}
+              
+                  {% assign words_code = words_total | minus: words_without_code | divided_by: 2.0 %}
+                  {% assign words_math = words_total | minus: words_without_math | times: 2.0 %}
+                  {% assign words = words_without_either | plus: words_code | plus: words_math | round %}
+              
                   {% assign ert = words | divided_by:250 | at_least: 1 %}
                   • {{ ert }} min read
                 </span>
