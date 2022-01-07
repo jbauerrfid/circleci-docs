@@ -35,10 +35,9 @@
             {% if page.page-type != "index" and page.page-type != "homepage" %}
             <div id="tooltip" role="tooltip" class="tooltip-popover"></div>
             <div id="tooltip-time" role="tooltip" class="tooltip-popover">
-              Last updated
+              Last updated • Reading time
               <div id='arrow' data-popper-arrow></div>
             </div>
-
             <div class="quick-info-list">
               <time aria-describedby="tooltip-time" id="time-posted-on" datetime="{{  page.last_modified_at | date_to_xmlschema }}">
                 <img alt="Clock" src="{{ site.baseurl }}/assets/img/docs/duration.svg">
@@ -47,6 +46,16 @@
                   {% assign timestampDiff = nowTimestamp | minus: dateStart %}
                   {% assign yearInSeconds = 60 | times: 60 | times: 24 | times: 365 %}
                   {% if timestampDiff > yearInSeconds %} 1+ year ago {% else %} {{ page.last_modified_at | timeago }} {% endif %}
+                <span class="ert" title="Estimated reading time">
+                  {% assign words_total = page.content | strip_html | number_of_words %}
+                  {% assign words_without_code = page.content | replace: '<pre class="highlight">', '<!--' | replace: '</pre>', '-->' | strip_html | number_of_words %}
+              
+                  {% assign words_code = words_total | minus: words_without_code | divided_by: 2.0 %}
+                  {% assign words = words_without_code | plus: words_code | round %}
+              
+                  {% assign ert = words | divided_by:250 | at_least: 1 %}
+                  • {{ ert }} min read
+                </span>
               </time>
               
               {% if page.version %}
